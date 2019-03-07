@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1551931226 source:c:\gabriel\ufpb\apa\heapsort\main.c
+	<stdio.h>
+	<stdlib.h>
+
