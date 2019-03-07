@@ -1,39 +1,71 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX_BUCKET 100
-#define MAX 10
+int i = 0, j = 0;
 
-int vetor[MAX];
+int maiorValor(int *Vetor_A, int tam){
+	int maior = 0;
 
-void coutingSort(int *V, int N){
-	int buckets[MAX_BUCKET];
-	int i, j, k;
+	for (i =0; i < tam; i++){
+		if (Vetor_A[i] > maior)
+			maior = Vetor_A[i];
+	}
 
-	for(i = 0; i < MAX_BUCKET; i++)
-		buckets[i] = 0;
+	return maior;
+}
 
-	for(i =0; i < N; i++)
-		buckets[V[i]]++;
+void countingSort(int *A, int *B, int tam, int k){
 
-	for(i = 0, j = 0; j < MAX_BUCKET; j++)
-		for(k = buckets[j]; k > 0; k--)
-			V[i++] = j;
+	int C[k];
+
+	for(i = 0; i <= k; i++)
+		C[i] = 0;
+
+	for(j = 0; j < tam; j++)
+		C[A[j]]= C[A[j]] + 1;
+
+	for(i = 1; i <= k; i++)
+		C[i] = C[i] + C[i-1];
+
+	for(j = tam -1 ; j >= 0; j--){
+		int c = C[A[j]];
+		B[c] = A[j];
+		C[A[j]] = C[A[j]] - 1;
+	}
 }
 
 int main(){
 
+	int n;
+
+	printf("Informe o tamanho do vetor: ");
+	scanf("%d", &n);
+
+	int A[n];
+
 	printf("Elementos do vetor: ");
-		for(int i = 0; i < MAX; i++){
-			scanf("%d", &vetor[i]);
+		for(int i = 0; i < n; i++){
+			scanf("%d", &A[i]);
 		}
 
-	coutingSort(vetor, MAX);
+	int k = 0, tam = 0;
+
+	tam = sizeof(A) / sizeof(int);
+
+	k = maiorValor(A,tam);
+
+	int B[tam];
+
+	countingSort(A, B, tam, k);
 
 	printf("Vetor ordenado: ");
 
-    for (int i = 0; i < MAX; i++)
-        printf("%d ", vetor[i]);
+    for(i = 1; i <= tam; i++){
+		A[i] = B[i];
+		printf("%d, ", A[i]);
+	}
 
-return 0;
+	getchar();
+
+	return 0;
 }
